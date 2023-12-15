@@ -15,6 +15,7 @@ function MenuItemList() {
         setMenuItems(data.result)
     })
     },[])
+    
   return (
     <div className="container row">
       {menuItems.length > 0 && 
