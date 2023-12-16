@@ -8,7 +8,7 @@ function MenuItemList() {
     const [menuItems,setMenuItems] = useState<menuItemModel[]>([]);
 
     useEffect(()=>{
-    fetch("https://trainpro.azurewebsites.net/api/MenuItem")
+    fetch("")
     .then((response) => response.json())
     .then((data) =>{
         console.log(data);
