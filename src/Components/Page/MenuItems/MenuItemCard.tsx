@@ -1,12 +1,32 @@
 import React from 'react'
 import { menuItemModel } from '../../../Interfaces'
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useUpdateShoppingCartMutation } from '../../../Apis/ShoppingCartApi';
+import { MiniLoader } from '../Common';
 
 interface Props{
     menuItem: menuItemModel;
 }
 
 function MenuItemCard(props:Props) {
+  const [isAddingToCart, setisAddingToCart] = useState<boolean>(false);
+  const [updadeShoppingCart] = useUpdateShoppingCartMutation();
+  
+  const handleAddToCart = async (menuItemId:number)=>{
+    setisAddingToCart(true);
+
+    const response = await updadeShoppingCart({
+      menuItemId:menuItemId,
+      updateQuantityBy:1,
+      userId:'df71d35a-4793-4d50-906c-0ef5b69d20c8'
+    });
+
+
+    setisAddingToCart(false);
+  }
+
+
   return (
     <div className="col-md-4 col-12 p-4">
       <div
@@ -42,18 +62,32 @@ function MenuItemCard(props:Props) {
             )}
           
 
-          <i
-            className="bi bi-cart-plus btn btn-outline-danger"
-            style={{
-              position: "absolute",
-              top: "15px",
-              right: "15px",
-              padding: "5px 10px",
-              borderRadius: "3px",
-              outline: "none !important",
-              cursor: "pointer",
-            }}
-          ></i>
+
+                {isAddingToCart?(
+                <div style={{
+                  position: "absolute",
+                  top: "15px",
+                  right: "15px",
+                }}
+                >
+                  <MiniLoader />
+                </div>
+                ) : (
+                  <i
+                  className="bi bi-cart-plus btn btn-outline-danger"
+                  style={{
+                    position: "absolute",
+                    top: "15px",
+                    right: "15px",
+                    padding: "5px 10px",
+                    borderRadius: "3px",
+                    outline: "none !important",
+                    cursor: "pointer",
+                  }}
+                  onClick={()=>handleAddToCart(props.menuItem.id)}
+                ></i>
+                )}
+          
 
           <div className="text-center">
           
