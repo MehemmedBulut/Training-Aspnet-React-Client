@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useGetMenuItemByIdQuery } from '../Apis/MenuItemApi';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useUpdateShoppingCartMutation } from '../Apis/ShoppingCartApi';
 
 // USER ID - df71d35a-4793-4d50-906c-0ef5b69d20c8
 function MenuItemDetails() {
@@ -11,6 +12,8 @@ function MenuItemDetails() {
   const {data,isLoading} = useGetMenuItemByIdQuery(menuItemId)
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setisAddingToCart] = useState<boolean>(false);
+  const [updadeShoppingCart] = useUpdateShoppingCartMutation();
   const handleQuantity = (counter: number)=>{
     let newQuantity = quantity + counter
     if(newQuantity==0){
@@ -19,6 +22,20 @@ function MenuItemDetails() {
     setQuantity(newQuantity);
     return;
   };
+
+  const handleAddToCart = async (menuItemId:number)=>{
+    setisAddingToCart(true);
+
+    const response = await updadeShoppingCart({
+      menuItemId:menuItemId,
+      updateQuantityBy:quantity,
+      userId:'df71d35a-4793-4d50-906c-0ef5b69d20c8'
+    });
+
+    console.log(response);
+
+    setisAddingToCart(false);
+  }
 
   return (
     <div className="container pt-4 pt-md-5">
@@ -67,7 +84,7 @@ function MenuItemDetails() {
         </span>
         <div className="row pt-4">
           <div className="col-5">
-            <button className="btn btn-success form-control">
+            <button className="btn btn-success form-control" onClick={()=> handleAddToCart(data.result?.id)}> 
               Add to Cart
             </button>
           </div>
