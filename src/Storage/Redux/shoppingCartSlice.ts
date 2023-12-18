@@ -9,7 +9,7 @@ export const shoppingCartSlice = createSlice({
     name: "cartItems",
     initialState:initialState,
     reducers:{
-        setShoppingCart: (state,action)=>{
+        setShoppingCart: (state, action)=> {
             state.cartItems = action.payload;
         },
     },

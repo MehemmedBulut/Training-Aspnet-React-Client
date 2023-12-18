@@ -16,7 +16,7 @@ function App() {
 
     useEffect(()=>{
       if(!isLoading){
-        console.log(data.result);
+        console.log(data.result)
         dispatch(setShoppingCart(data.result?.carItems))
       }
     }, [data]);
@@ -30,7 +30,7 @@ function App() {
           <Route path="/meuItemDetails/:menuItemId" 
           element={<MenuItemDetails/>}>
           </Route>
-          <Route path="/ShoppingCart" element={<ShoppingCart/>}></Route>
+          <Route path="/shoppingCart" element={<ShoppingCart/>}></Route>
           <Route path="*" element={<NotFound/>}></Route>
         </Routes>
       </div>
