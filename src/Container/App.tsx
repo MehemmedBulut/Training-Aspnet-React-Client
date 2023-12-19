@@ -14,10 +14,15 @@ function App() {
     "df71d35a-4793-4d50-906c-0ef5b69d20c8"
     );
 
-    useEffect(()=>{
-      if(!isLoading){
-        console.log(data.result)
-        dispatch(setShoppingCart(data.result?.carItems))
+    // useEffect(()=>{
+    //   if(!isLoading){
+    //     console.log(data.result)
+    //     dispatch(setShoppingCart(data?.result?.carItems))
+    //   }
+    // }, [data]);
+    useEffect(() => {
+      if (!isLoading && data ) {
+        dispatch(setShoppingCart(data.result?.cartItems));
       }
     }, [data]);
 
