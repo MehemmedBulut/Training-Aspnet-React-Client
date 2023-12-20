@@ -13,7 +13,6 @@ function App() {
   const {data,isLoading} = useGetShoppingCartQuery(
     "df71d35a-4793-4d50-906c-0ef5b69d20c8"
     );
-
     // useEffect(()=>{
     //   if(!isLoading){
     //     console.log(data.result)

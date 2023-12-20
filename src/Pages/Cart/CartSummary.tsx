@@ -9,14 +9,15 @@ function CartSummary() {
 
   const dispatch = useDispatch();
   const [updadeShoppingCart] = useUpdateShoppingCartMutation();
-  const shoppingCartItemsFromStore : cartItemModel[] = useSelector(
+  const shoppingCartFromStore : cartItemModel[] = useSelector(
   (state : RootState) => state.shoppingCartStore.cartItems ?? []
 );
 
 
-if(!shoppingCartItemsFromStore){
+if(!shoppingCartFromStore){
   return <div>Shooping cart empty</div>
 }
+
 
 
 const handleQuantity = (
@@ -55,7 +56,7 @@ const handleQuantity = (
     <div className="container p-4 m-2">
     <h4 className="text-center text-success">Cart Summary</h4>
 
-    {shoppingCartItemsFromStore.map((cartItem : cartItemModel, index : number)=>(
+    {shoppingCartFromStore.map((cartItem : cartItemModel, index : number)=>(
       <div
       key={index}
       className="d-flex flex-sm-row flex-column align-items-center custom-card-shadow rounded m-3"

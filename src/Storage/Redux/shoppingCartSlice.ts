@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { shoppingCartModel } from "../../Interfaces";
+import { menuItemApi } from "../../Apis";
 
 const initialState : shoppingCartModel = {
     cartItems: [],
 };
-
+console.log()
 
 export const shoppingCartSlice = createSlice({
     name: "cartItems",
@@ -13,6 +14,7 @@ export const shoppingCartSlice = createSlice({
         setShoppingCart: (state, action)=> {
             state.cartItems = action.payload;
         },
+        
         updateQuantity:(state, action)=>{
             state.cartItems = state.cartItems?.map((item)=>{
                 if(item.id === action.payload.cartItem.id){
@@ -21,8 +23,10 @@ export const shoppingCartSlice = createSlice({
                 return item;
             });
         },
+        
         removeFromCart:(state,action)=>{
             state.cartItems = state.cartItems?.filter((item)=>{
+                console.log(action.payload.cartItem.id)
                 if(item.id === action.payload.cartItem.id){
                     return null;
                 }
