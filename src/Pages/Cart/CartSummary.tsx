@@ -13,12 +13,9 @@ function CartSummary() {
   (state : RootState) => state.shoppingCartStore.cartItems ?? []
 );
 
-
 if(!shoppingCartFromStore){
   return <div>Shooping cart empty</div>
 }
-
-
 
 const handleQuantity = (
   updateQuantityBy:number, 
@@ -42,6 +39,7 @@ const handleQuantity = (
       updateQuantityBy:updateQuantityBy,
       userId:"df71d35a-4793-4d50-906c-0ef5b69d20c8"
     })
+    
     dispatch(
       updateQuantity({
         carItem,
