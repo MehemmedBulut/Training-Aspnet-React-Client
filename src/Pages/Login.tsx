@@ -4,7 +4,9 @@ import { useLoginUserMutation } from '../Apis/AuthApi';
 import { apiResponse, userModel } from '../Interfaces';
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setLoggedInUser } from '../Storage/Redux/userAuthSlice';
+import { MainLoader } from '../Components/Page/Common';
 
 function Login() {
 
@@ -12,6 +14,7 @@ function Login() {
   const [loginUser] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [userInput, setUserInput] = useState({
     userName: "",
     password: "",
@@ -34,7 +37,8 @@ function Login() {
       const {token} = response.data.result;
       const {fullName, id, email, role} : userModel = jwtDecode(token);
       localStorage.setItem("token",token);
-      dispatch(setLoggedInUser({fullName, id, email, role}))
+      dispatch(setLoggedInUser({fullName, id, email, role}));
+      navigate("/")
     }else if(response.error){
       console.log(response)
       setError(response.error.data.errorMessages[0]);
@@ -45,6 +49,7 @@ function Login() {
 
   return (
     <div className="container text-center">
+      {loading && <MainLoader />}
     <form method="post" onSubmit={handleSubmit}>
       <h1 className="mt-5">Login</h1>
       <div className="mt-5">
