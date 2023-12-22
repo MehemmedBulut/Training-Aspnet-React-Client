@@ -38,7 +38,7 @@ function Register() {
     }
 
     setLoading(false);
-  }
+  };
 
   return (
     <div className="container text-center">
