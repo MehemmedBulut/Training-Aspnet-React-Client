@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
 import { SD_Roles } from '../Utility/SD'
 import { inputHelper } from '../Components/Helper';
+import { useRegisterUserMutation } from '../Apis/AuthApi';
+import { apiResponse } from '../Interfaces';
 
 
 
 function Register() {
 
+  const [registerUser] = useRegisterUserMutation();
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     userName: "",
@@ -17,11 +20,29 @@ function Register() {
   const handleUserInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
     const tempData = inputHelper(e,userInput);
     setUserInput(tempData);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    setLoading(true);
+    const response : apiResponse = await registerUser({
+      userName: userInput.userName,
+      password: userInput.password,
+      role: userInput.role,
+      name: userInput.name,
+    });
+    if(response.data){
+      console.log(response.data)
+    }else if(response.data){
+      console.log(response)
+    }
+
+    setLoading(false);
   }
 
   return (
     <div className="container text-center">
-    <form method="post">
+    <form method="post" onSubmit={handleSubmit}>
       <h1 className="mt-5">Register</h1>
       <div className="mt-5">
         <div className="col-sm-6 offset-sm-3 col-xs-12 mt-4">
