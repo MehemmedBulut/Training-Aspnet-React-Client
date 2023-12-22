@@ -1,13 +1,17 @@
 import React, {useState} from 'react'
 import { inputHelper } from '../Components/Helper';
 import { useLoginUserMutation } from '../Apis/AuthApi';
-import { apiResponse } from '../Interfaces';
+import { apiResponse, userModel } from '../Interfaces';
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../Storage/Redux/userAuthSlice';
 
 function Login() {
 
   const [error, setError] = useState("");
   const [loginUser] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const [userInput, setUserInput] = useState({
     userName: "",
     password: "",
@@ -27,6 +31,10 @@ function Login() {
     });
     if(response.data){
       console.log(response.data)
+      const {token} = response.data.result;
+      const {fullName, id, email, role} : userModel = jwtDecode(token);
+      localStorage.setItem("token",token);
+      dispatch(setLoggedInUser({fullName, id, email, role}))
     }else if(response.error){
       console.log(response)
       setError(response.error.data.errorMessages[0]);
